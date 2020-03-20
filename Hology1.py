@@ -98,18 +98,16 @@ print("\n%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
 
 # Plot training & validation accuracy values
 plt.plot(history.history['accuracy'])
-plt.plot(history.history['val_accuracy'])
 plt.title('Model accuracy')
 plt.ylabel('Accuracy')
 plt.xlabel('Epoch')
-plt.legend(['Train', 'Test'], loc='upper left')
+plt.legend(['Train'], loc='upper left')
 plt.show()
 
 # Plot training & validation loss values
 plt.plot(history.history['loss'])
-plt.plot(history.history['val_loss'])
 plt.title('Model loss')
 plt.ylabel('Loss')
 plt.xlabel('Epoch')
-plt.legend(['Train', 'Test'], loc='upper left')
+plt.legend(['Train'], loc='upper left')
 plt.show()
