@@ -4,6 +4,7 @@ from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Activation, Dropout, Flatten, Dense
 from keras import backend as K
 import os
+import matplotlib.pyplot as plt
 
 path = os.getcwd()
 
@@ -22,7 +23,7 @@ test_data_dir = path+'/training/crime/test'
 
 nb_train_samples = 3889
 nb_validation_samples = 127
-epochs = 2
+epochs = 100
 batch_size = 16
 
 if K.image_data_format() == 'channels_first':
@@ -78,7 +79,7 @@ test_generator = test_datagen.flow_from_directory(
     class_mode='binary')
 
 
-model.fit_generator( train_generator,
+history = model.fit_generator( train_generator,
     steps_per_epoch=nb_train_samples // batch_size, epochs=epochs,
     validation_data=validation_generator,
     validation_steps=nb_validation_samples // batch_size)
@@ -93,3 +94,22 @@ model.save_weights('Model/weight.h5')
 
 scores = model.evaluate_generator(test_generator)
 print("\n%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
+
+
+# Plot training & validation accuracy values
+plt.plot(history.history['accuracy'])
+plt.plot(history.history['val_accuracy'])
+plt.title('Model accuracy')
+plt.ylabel('Accuracy')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Test'], loc='upper left')
+plt.show()
+
+# Plot training & validation loss values
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('Model loss')
+plt.ylabel('Loss')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Test'], loc='upper left')
+plt.show()
